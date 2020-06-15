@@ -1,0 +1,168 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+  <title>فرم ثبت اطلاعات کتاب</title>
+  <style>
+    @font-face {
+         font-family: 'yekan';
+         src: url('fonts/yekan.eot');
+         src: url('fonts/yekan.eot?#iefix') format('embedded-opentype'), url('fonts/yekan.woff') format('woff'), url('fonts/yekan.ttf') format('truetype');
+         font-weight: normal;
+     }
+     body{
+         direction: rtl;
+         text-align: right;
+         font-family: 'yekan', tahoma;
+     }
+     .mainform{
+         margin: 5px auto;
+         width: 60%;
+     }
+     .buttons{
+       text-align: center;
+     }
+ </style>
+</head>
+<body id="background">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1 class="text-dark text-center p-3 mb-3">فرم ثبت اطلاعات کتاب</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <form class="mainform mb-4">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>عنوان کتاب</label>
+              <input class="form-control" id="title" placeholder="عنوان کتاب">
+            </div>
+            <div class="form-group col-md-6">
+              <label>نام نویسنده</label>
+              <input class="form-control" id="author" placeholder="نام نویسنده">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>مترجم</label>
+            <input class="form-control" id="translator" placeholder="مترجم  ">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>نام ناشر</label>
+              <input class="form-control" id="nasher" placeholder="ناشر">
+            </div>
+            <div class="form-group col-md-3">
+              <label>نوبت چاپ</label>
+              <input class="form-control" id="chapNumber" placeholder="اول">
+            </div>
+            <div class="form-group col-md-3">
+              <label>شابک</label>
+              <input class="form-control" id="shabok" placeholder="شماره شابک">
+            </div>
+          </div>
+          
+        </form>
+        <div class="row">
+          <div class="col">
+            <div class="buttons mb-5"> 
+              <button class="btn btn-success btn-lg" onclick="save()">ثبت</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <table id="books" class="table table-hover text-center">
+          <thead>
+            <tr>
+              <th>ردیف</th>
+              <th>عنوان کتاب</th>
+              <th>نام نویسنده</th>
+              <th>مترجم</th>
+              <th>ناشر</th>
+              <th>نوبت چاپ</th>
+              <th>شابک</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>مردی به نام اوه</td>
+              <td> فردریک بکمن </td>
+              <td>الناز فرحناکیان</td>
+              <td>نشر نون</td>
+              <td>اول</td>
+              <td>256855</td>
+              <td>
+                <button class="btn btn-sm btn-danger" onclick="remove(this, '${title}')">حذف</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script>
+    // backgroundtheme
+    let colors = ["#979A9A", "#797D7F", "#5F6A6A",  "#515A5A", "#5D6D7E", "#808B96"];
+     let currentPosition = 0;
+     function changeBgColor() {
+       if (currentPosition == colors.length - 1) {
+         currentPosition = -1;
+     }
+        currentPosition += 1;
+        document.getElementById("background").style.backgroundColor = colors[currentPosition];
+     }
+     setInterval(() => {
+         changeBgColor()
+     }, 2000);
+     //......................................................................
+
+
+     //books
+   function save(){
+     const title = document.getElementById("title").value;
+     const author = document.getElementById("author").value;
+     const translator = document.getElementById("translator").value;
+     const nasher = document.getElementById("nasher").value;
+     const chapNumber = document.getElementById("chapNumber").value;
+     const shabok = document.getElementById("shabok").value;
+
+     let row = document.createElement("tr");
+     row.innerHTML = `<td>${document.querySelectorAll("#books tbody tr").length + 1}</td>
+             <td>${title}</td>
+             <td>${author}</td>
+             <td>${translator}</td>
+             <td>${nasher}</td>
+             <td>${chapNumber}</td>
+             <td>${shabok}</td>
+             <td>
+               <button class="btn btn-sm btn-danger" onclick="remove(this, '${title}')">حذف</button>
+             </td>`;
+
+             document.querySelector("#books tbody").append(row);
+
+             document.getElementById("title").value = '';
+             document.getElementById("author").value = '';
+             document.getElementById("translator").value = '';
+             document.getElementById("nasher").value = '';
+             document.getElementById("chapNumber").value = '';
+             document.getElementById("shabok").value = '';
+             document.getElementById("title").focus();
+      }
+      //delete
+      function remove(element, title) {
+            if (confirm("آیا می خواهید اطلاعات مورد نظر حذف گردد؟")){
+              element.parentElement.parentElement.remove();    
+            }
+      }
+
+    
+ </script>
+</body>
+</html>
